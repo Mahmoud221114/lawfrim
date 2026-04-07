@@ -1365,7 +1365,7 @@ input, select, textarea { font-family: inherit; direction: rtl; }
 .wa-icon { width: 30px; height: 30px; position: relative; z-index: 1; }
 
 /* Tooltip */
-.wa-tooltip {
+.wa-tooltip1 {
   position: absolute;
   left: calc(100% + 12px);
   top: 50%;
@@ -1382,7 +1382,7 @@ input, select, textarea { font-family: inherit; direction: rtl; }
   pointer-events: none;
   transition: opacity var(--t-base), transform var(--t-base) var(--ease);
 }
-.wa-tooltip::before {
+.wa-tooltip1::before {
   content: '';
   position: absolute;
   right: 100%;
@@ -1391,13 +1391,13 @@ input, select, textarea { font-family: inherit; direction: rtl; }
   border: 6px solid transparent;
   border-right-color: var(--gold-border);
 }
-.whatsapp-float1:hover .wa-tooltip {
+.whatsapp-float1:hover .wa-tooltip1 {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
 
 /* Pulse ring */
-.wa-pulse {
+.wa-pulse1 {
   position: absolute;
   inset: -4px;
   border-radius: 50%;
@@ -1437,7 +1437,7 @@ input, select, textarea { font-family: inherit; direction: rtl; }
 .wa-icon { width: 30px; height: 30px; position: relative; z-index: 1; }
 
 /* Tooltip */
-.wa-tooltip {
+.wa-tooltip2 {
   position: absolute;
   left: calc(100% + 12px);
   top: 50%;
@@ -1454,7 +1454,7 @@ input, select, textarea { font-family: inherit; direction: rtl; }
   pointer-events: none;
   transition: opacity var(--t-base), transform var(--t-base) var(--ease);
 }
-.wa-tooltip::before {
+.wa-tooltip2::before {
   content: '';
   position: absolute;
   right: 100%;
@@ -1463,13 +1463,13 @@ input, select, textarea { font-family: inherit; direction: rtl; }
   border: 6px solid transparent;
   border-right-color: var(--gold-border);
 }
-.whatsapp-float2:hover .wa-tooltip {
+.whatsapp-float2:hover .wa-tooltip2 {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
 
 /* Pulse ring */
-.wa-pulse {
+.wa-pulse2 {
   position: absolute;
   inset: -4px;
   border-radius: 50%;
