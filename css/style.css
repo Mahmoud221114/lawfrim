@@ -1,19 +1,8 @@
-/* ================================================================
-   مكتب العربي وعبدالعظيم للمحاماة والاستشارات القانونية
-   style.css — Premium RTL Arabic Law Firm Website
-   Design: Prestige Noir Arabique
-   Colors: Obsidian Black #0a0a0a | Champagne Gold #c9a84c | White
-   Font: Cairo (Arabic Google Font)
-   ================================================================ */
 
-/* ──────────────────────────────────────────
-   GOOGLE FONTS
-────────────────────────────────────────── */
+  /* GOOGLE FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap');
 
-/* ──────────────────────────────────────────
-   CSS CUSTOM PROPERTIES
-────────────────────────────────────────── */
+   /* CSS CUSTOM PROPERTIES */
 :root {
   /* Primary Palette */
   --black:        #0a0a0a;
@@ -69,9 +58,7 @@
   --shadow-hover: 0 16px 60px rgba(0, 0, 0, 0.35);
 }
 
-/* ──────────────────────────────────────────
-   RESET & BASE
-────────────────────────────────────────── */
+   /* RESET & BASE */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
