@@ -355,7 +355,23 @@ function initSmoothScroll() {
       This adds a small entrance animation on load.
 ══════════════════════════════════════════════════════════ */
 function initWhatsAppButton() {
-  const btn = $("#whatsapp-btn");
+  const btn = $("#whatsapp-btn1");
+  if (!btn) return;
+
+  // Entrance animation after 2 seconds
+  btn.style.transform = "scale(0) translateY(20px)";
+  btn.style.opacity = "0";
+
+  setTimeout(() => {
+    btn.style.transition =
+      "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease";
+    btn.style.transform = "";
+    btn.style.opacity = "";
+  }, 2000);
+}
+
+function initWhatsAppButton() {
+  const btn = $("#whatsapp-btn2");
   if (!btn) return;
 
   // Entrance animation after 2 seconds
