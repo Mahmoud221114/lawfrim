@@ -25,8 +25,14 @@
   --gold-border:  rgba(201, 168, 76, 0.3);
   --gold-glow:    rgba(201, 168, 76, 0.25);
 
+    --wa-green:    #25d366;
+  --wa-dark:     #128c7e;
+
   /* Typography */
   --font:         'Cairo', 'Segoe UI', Tahoma, sans-serif;
+
+  --sp-xs:  4px;   --sp-sm: 8px;    --sp-md: 16px;
+  --sp-lg:  24px;  --sp-xl: 40px;   --sp-2xl: 64px;  --sp-3xl: 96px;
 
   /* Spacing */
   --sp-xs:  4px;
@@ -1054,6 +1060,289 @@ input, select, textarea { font-family: inherit; direction: rtl; }
   font-style: normal;
 }
 
+/* Section background — dark like services, for visual contrast variety */
+.lawyers-section {
+  background-color: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle radial ambient light */
+.lawyers-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 25% 50%, rgba(201,168,76,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 75% 50%, rgba(201,168,76,0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grid: two equal columns side-by-side; stacks on mobile */
+.lawyers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Lawyer Card ── */
+.lawyer-card {
+  background: var(--black-soft);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg);
+  padding: clamp(32px, 5vw, 52px) clamp(24px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color var(--t-base),
+    box-shadow    var(--t-base),
+    transform     var(--t-base);
+}
+
+/* Hover state */
+.lawyer-card:hover {
+  border-color: var(--gold-border);
+  box-shadow: 0 0 0 1px var(--gold-border), 0 24px 64px rgba(0,0,0,0.5), var(--shadow-gold);
+  transform: translateY(-10px);
+}
+
+/* Gold accent bar animates in from left on hover */
+.lawyer-card-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--gold-dark), var(--gold), var(--gold-light), var(--gold));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--t-slow) var(--ease);
+}
+.lawyer-card:hover .lawyer-card-accent {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Corner ornaments (small gold L-shapes) */
+.card-corner {
+  position: absolute;
+  width: 22px; height: 22px;
+  pointer-events: none;
+  transition: opacity var(--t-base);
+  opacity: 0.4;
+}
+.card-corner-tl {
+  top: 16px; right: 16px;
+  border-top: 1.5px solid var(--gold);
+  border-right: 1.5px solid var(--gold);
+}
+.card-corner-br {
+  bottom: 16px; left: 16px;
+  border-bottom: 1.5px solid var(--gold);
+  border-left: 1.5px solid var(--gold);
+}
+.lawyer-card:hover .card-corner { opacity: 1; }
+
+/* ── Avatar ── */
+.lawyer-avatar-wrap {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  margin-bottom: var(--sp-lg);
+  flex-shrink: 0;
+}
+
+.lawyer-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--black-mid);
+  border: 2px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color var(--t-base), box-shadow var(--t-base);
+}
+.lawyer-avatar svg { width: 100%; height: 100%; }
+.lawyer-card:hover .lawyer-avatar {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px var(--gold-dim);
+}
+
+/* Rotating decorative ring around avatar */
+.avatar-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px dashed rgba(201,168,76,0.25);
+  animation: avatarSpin 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes avatarSpin { to { transform: rotate(360deg); } }
+.lawyer-card:hover .avatar-ring { border-color: rgba(201,168,76,0.5); }
+
+/* Gold dot at top-right of avatar */
+.avatar-dot {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--black-soft);
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+
+/* ── Status badge ── */
+.lawyer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  border-radius: 99px;
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  margin-bottom: var(--sp-lg);
+}
+.badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--wa-green);
+  box-shadow: 0 0 6px rgba(37,211,102,0.6);
+  animation: badgePulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes badgePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ── Lawyer info text ── */
+.lawyer-info {
+  width: 100%;
+  margin-bottom: var(--sp-lg);
+}
+
+.lawyer-name {
+  font-family: var(--font);
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  transition: color var(--t-fast);
+}
+.lawyer-card:hover .lawyer-name { color: var(--gold-light); }
+
+.lawyer-title-role {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--sp-sm);
+}
+
+.lawyer-speciality {
+  font-size: 13.5px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-bottom: var(--sp-lg);
+}
+
+/* Phone link */
+.lawyer-contact { display: flex; justify-content: center; }
+.lawyer-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 99px;
+  padding: 7px 18px;
+  transition: all var(--t-base);
+  direction: ltr;
+}
+.lawyer-phone:hover {
+  color: var(--gold);
+  border-color: var(--gold-border);
+  background: var(--gold-dim);
+  transform: translateY(-2px);
+}
+.phone-icon {
+  display: flex;
+  align-items: center;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ── Card divider ── */
+.lawyer-card-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-lg);
+}
+.divider-diamond {
+  font-size: 8px;
+  color: var(--gold);
+  background: var(--black-soft);
+  padding: 0 8px;
+  opacity: 0.6;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Action buttons ── */
+.lawyer-actions {
+  display: flex;
+  gap: var(--sp-sm);
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.lawyer-profile-btn {
+  flex: 1;
+  min-width: 160px;
+}
+
+.lawyer-wa-btn {
+  flex-shrink: 0;
+}
+.btn-wa {
+  background: linear-gradient(135deg, var(--wa-green), var(--wa-dark));
+    color: var(--white);
+    border-color: var(--wa-green);
+}
+.btn-wa:hover {
+    box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+    transform: translateY(-2px);
+}
+.img1 {
+    top: 40px;
+    position: relative;
+}
+/* .img-ahmed {
+  position: relative;
+} */
 /* ──────────────────────────────────────────
    CONTACT SECTION
 ────────────────────────────────────────── */
@@ -1110,6 +1399,97 @@ input, select, textarea { font-family: inherit; direction: rtl; }
   font-size: 14px;
   color: rgba(255,255,255,0.75);
   line-height: 1.5;
+}
+/* ─── Lawyer Profile Page ─── */
+.profile-hero { background:var(--black); padding-top:calc(var(--nav-h) + 60px); padding-bottom:60px; position:relative; overflow:hidden; }
+.profile-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 60%); pointer-events:none; }
+.profile-hero-inner { display:grid; grid-template-columns:auto 1fr; gap:clamp(32px,5vw,64px); align-items:center; position:relative; z-index:1; }
+.profile-avatar-large { position:relative; flex-shrink:0; }
+.profile-avatar-img { width:180px; height:180px; border-radius:50%; background:var(--black-mid); border:3px solid var(--gold); box-shadow:0 0 0 8px var(--gold-dim),var(--shadow-gold); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.profile-avatar-img svg { width:100%; height:100%; }
+.profile-avatar-ring { position:absolute; inset:-12px; border-radius:50%; border:1px dashed rgba(201,168,76,0.3); animation:avatarSpin 20s linear infinite; }
+.profile-back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--gold); margin-bottom:var(--sp-lg); transition:gap var(--t-base); }
+.profile-back-link:hover { gap:10px; }
+.profile-name { font-family:var(--font); font-size:clamp(2rem,4vw,3.2rem); font-weight:900; color:var(--white); line-height:1.1; margin-bottom:var(--sp-sm); }
+.profile-title-tag { display:inline-flex; align-items:center; gap:8px; background:var(--gold-dim); border:1px solid var(--gold-border); border-radius:99px; padding:5px 16px; font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:var(--sp-lg); }
+.profile-hero-actions { display:flex; gap:var(--sp-md); flex-wrap:wrap; }
+.profile-body { padding-block:clamp(48px,8vw,80px); background:var(--off-white); }
+.profile-grid { display:grid; grid-template-columns:280px 1fr; gap:clamp(28px,5vw,56px); align-items:start; }
+.profile-sidebar {}
+.profile-info-card { background:var(--white); border:1px solid rgba(0,0,0,0.07); border-radius:var(--radius-md); padding:var(--sp-xl); margin-bottom:var(--sp-lg); box-shadow:var(--shadow-card); }
+.profile-info-card-title { font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:var(--sp-lg); padding-bottom:var(--sp-sm); border-bottom:1px solid rgba(201,168,76,0.2); }
+.profile-info-row { display:flex; flex-direction:column; gap:4px; padding:var(--sp-sm) 0; border-bottom:1px solid rgba(0,0,0,0.05); }
+.profile-info-row:last-child { border-bottom:none; }
+.profile-info-label { font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid-gray); }
+.profile-info-value { font-size:14px; font-weight:500; color:var(--black); }
+.profile-info-value a { color:var(--black); transition:color var(--t-fast); }
+.profile-info-value a:hover { color:var(--gold-dark); }
+.profile-main {}
+.profile-section { margin-bottom:var(--sp-2xl); }
+.profile-section-title { font-family:var(--font); font-size:clamp(1.3rem,2.5vw,1.75rem); font-weight:700; color:var(--black); margin-bottom:var(--sp-lg); padding-bottom:var(--sp-md); border-bottom:2px solid var(--gold); display:flex; align-items:center; gap:var(--sp-sm); }
+.profile-section-title .section-icon { font-size:20px; }
+.profile-bio { font-size:15.5px; font-weight:300; line-height:1.9; color:var(--charcoal); }
+.expertise-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--sp-md); }
+.expertise-item { background:var(--white); border:1px solid rgba(0,0,0,0.07); border-right:3px solid var(--gold); border-radius:var(--radius); padding:var(--sp-md) var(--sp-lg); font-size:14px; font-weight:500; color:var(--charcoal); transition:all var(--t-base); }
+.expertise-item:hover { border-right-color:var(--gold-dark); background:var(--gold-dim); transform:translateX(-4px); }
+.achievements-list { display:flex; flex-direction:column; gap:var(--sp-md); }
+.achievement-item { display:flex; align-items:flex-start; gap:var(--sp-md); background:var(--white); border:1px solid rgba(0,0,0,0.07); border-radius:var(--radius-md); padding:var(--sp-lg); transition:box-shadow var(--t-base),transform var(--t-base); }
+.achievement-item:hover { box-shadow:var(--shadow-card); transform:translateY(-3px); }
+.achievement-icon { font-size:24px; flex-shrink:0; }
+.achievement-title { font-size:14px; font-weight:700; color:var(--black); margin-bottom:3px; }
+.achievement-desc { font-size:13px; color:var(--mid-gray); line-height:1.6; }
+.profile-cta-card { background:var(--black); border-radius:var(--radius-lg); padding:var(--sp-2xl); text-align:center; border:1px solid var(--gold-border); }
+.profile-cta-title { font-family:var(--font); font-size:clamp(1.3rem,2.5vw,2rem); font-weight:700; color:var(--white); margin-bottom:var(--sp-md); }
+.profile-cta-desc { font-size:15px; font-weight:300; color:rgba(255,255,255,0.65); max-width:480px; margin:0 auto var(--sp-xl); line-height:1.8; }
+.profile-cta-actions { display:flex; gap:var(--sp-md); justify-content:center; flex-wrap:wrap; }
+
+/* ─── Responsive ─── */
+@media (max-width:1100px) {
+  .pillars-grid { grid-template-columns:repeat(2,1fr); }
+  .footer-top { grid-template-columns:1fr 1fr; }
+}
+
+@media (max-width:900px) {
+  .nav-links,.nav-cta { display:none; }
+  .hamburger { display:flex; }
+  .about-grid { grid-template-columns:1fr; }
+  .about-visual { display:none; }
+  .contact-grid { grid-template-columns:1fr; }
+  .lawyers-grid { grid-template-columns:1fr; max-width:480px; margin-inline:auto; }
+  .profile-hero-inner { grid-template-columns:1fr; text-align:center; }
+  .profile-avatar-large { margin-inline:auto; }
+  .profile-grid { grid-template-columns:1fr; }
+  .profile-hero-actions { justify-content:center; }
+}
+
+@media (max-width:680px) {
+  .hero-stats { flex-direction:column; align-items:center; gap:var(--sp-lg); }
+  .stat-divider { width:80px; height:1px; }
+  .services-grid { grid-template-columns:1fr; }
+  .pillars-grid { grid-template-columns:1fr; }
+  .values-grid { grid-template-columns:1fr; }
+  .corner { display:none; }
+  .hero-bg-ornament { display:none; }
+  .footer-top { grid-template-columns:1fr; }
+  .footer-bottom-content { flex-direction:column; text-align:center; }
+  .hero-actions { flex-direction:column; align-items:center; }
+  .hero-actions .btn { width:100%; max-width:300px; }
+  .lawyer-actions { flex-direction:column; }
+  .lawyer-profile-btn,.lawyer-wa-btn { width:100%; }
+  .expertise-grid { grid-template-columns:1fr; }
+  .profile-cta-actions { flex-direction:column; align-items:center; }
+}
+
+@media (max-width:400px) {
+  :root { --nav-h:68px; }
+  .hero-title { font-size:2rem; }
+  .whatsapp-float { width:52px; height:52px; bottom:24px; left:16px; }
+  .back-to-top { width:40px; height:40px; bottom:24px; right:16px; }
+}
+
+@media print {
+  .navbar,.whatsapp-float,.back-to-top,.hero-scroll,.hero-bg-ornament { display:none !important; }
+  body { background:white; color:black; }
 }
 
 /* Social links */
